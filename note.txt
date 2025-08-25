@@ -1,0 +1,13 @@
+python -m venv venv
+venv\Scripts\activate
+pip install 
+django-admin --version
+#create project 
+django-admin startproject site1
+
+#run web
+python manage.py migrate
+python manage.py runserver 8888
+
+#create user admin 
+python manage.py createsuperuser
