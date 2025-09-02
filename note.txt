@@ -12,5 +12,7 @@ python manage.py runserver 8888
 #create user admin 
 python manage.py createsuperuser
 
-#create module
-python manage.py startapp home
+#create module--
+python manage.py startapp 
+
+django-admin startapp app
