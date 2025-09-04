@@ -77,11 +77,16 @@ WSGI_APPLICATION = 'webbanhang.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'py_site1',
-        'USER':'root',
-        'PASSWORD':'123456',
-        'HOST':'localhost',
-        'PORT': '3306',              # Port MySQL (mặc định 3306)
+        # 'NAME':'py_site1',
+        # 'USER':'root',
+        # 'PASSWORD':'123456',
+        # 'HOST':'localhost',
+        # 'PORT': '3306',              # Port MySQL (mặc định 3306)
+        'NAME':'my_project',
+        'USER':'my_project',
+        'PASSWORD':'my_project123',
+        'HOST':'103.173.227.63',
+        'PORT': '3306', 
         'OPTIONS': {
             'charset': 'utf8mb4',
         },

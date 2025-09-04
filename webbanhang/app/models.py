@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from core.constants.table import *
+
+
 class Customer(models.Model):
     user  = models.OneToOneField(User,on_delete=models.SET_NULL, null=True,blank=False)
     name  = models.CharField(max_length=255, null=True, blank=True)
@@ -11,9 +14,15 @@ class Customer(models.Model):
 
 
 class Category(models.Model):
-    name  = models.CharField(max_length=255, null=True)
-    slug  = models.SlugField(max_length=255, unique=True, null=True)
-    image = models.ImageField(upload_to="categories/", null=True, blank=True)
+    name        = models.CharField(max_length=255, null=True)
+    slug        = models.SlugField(max_length=255, unique=True, null=True)
+    parent_id   = models.IntegerField( null=True)
+    level       = models.IntegerField( null=True,default=0)
+    icon_url    = models.ImageField(upload_to="categories/", null=True, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = TABLE_CATEGORY
 
     def __str__(self):
         return self.name
@@ -25,8 +34,10 @@ class Product(models.Model):
     price       = models.DecimalField(max_digits=10, decimal_places=2)
     image       = models.ImageField(upload_to="products/", null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    rating      = models.IntegerField(default=0, null=True, blank=True)
-
+    stock      = models.IntegerField(default=0, null=True, blank=True)
+    class Meta:
+        managed = False
+        db_table = TABLE_PRODUCT
     def __str__(self):
         return self.name
 
@@ -61,6 +72,9 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.id} - {self.customer}"
+    class Meta:
+        managed = False
+        db_table = TABLE_ORDER
 
 
 class OrderItem(models.Model):
@@ -72,3 +86,27 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product} x {self.quantity}"
+    class Meta:
+        managed = False
+        db_table = TABLE_ORDER_DETAIL 
+
+class UserNew(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    full_name = models.CharField(max_length=150)
+    email = models.CharField(max_length=150)
+    avatar = models.CharField(max_length=500)
+    
+
+    class Meta:
+        managed = False 
+        db_table = TABLE_USER 
+class Review(models.Model):
+    user     = models.ForeignKey(UserNew, on_delete=models.CASCADE, related_name="reviewer")
+
+    star = models.IntegerField(default=0, null=True,blank=True)
+    comment = models.TextField( null=True,blank=True)
+
+   
+    class Meta:
+        managed = False
+        db_table = TABLE_REVIEW

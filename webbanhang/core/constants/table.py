@@ -1,0 +1,6 @@
+TABLE_PRODUCT = 'ecommerce_products'
+TABLE_CATEGORY = 'ecommerce_categories'
+TABLE_USER = 'users'
+TABLE_ORDER = 'ecommerce_orders'
+TABLE_ORDER_DETAIL = 'ecommerce_order_details'
+TABLE_REVIEW= 'ecommerce_product_reviews'
