@@ -1,4 +1,5 @@
-{% load static %}
+{% load static humanize stars_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -103,7 +104,6 @@
             <div class="navbar-nav mx-auto">
               <a href="{% url 'home' %}" class="nav-item nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Trang chủ</a>
               <a href="{% url 'shop' %}" class="nav-item nav-link {% if request.resolver_match.url_name == 'shop' %}active{% endif %}">Cửa hàng</a>
-              <a href="{% url 'detail' %}" class="nav-item nav-link {% if request.resolver_match.url_name == 'detail' %}active{% endif %}">Chi tiết sản phẩm</a>
               <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Trang khác</a>
                 <div class="dropdown-menu m-0 rounded-0" style="background: #f8f9fa;">
