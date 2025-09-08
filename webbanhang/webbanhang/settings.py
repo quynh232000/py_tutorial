@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Thời gian sống của session (giây), VD: 2 tuần
+SESSION_COOKIE_AGE = 1209600  
+
+# Nếu True, đóng browser thì mất session
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 # Application definition
 
@@ -64,6 +69,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.debug',
+                'app.context.cart_processors.cart_context'
             ],
         },
     },

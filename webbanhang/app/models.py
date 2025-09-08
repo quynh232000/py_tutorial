@@ -33,7 +33,7 @@ class Product(models.Model):
     name        = models.CharField(max_length=255)
     slug        = models.CharField(max_length=255)
     price       = models.DecimalField(max_digits=10, decimal_places=2)
-    image       = models.ImageField(upload_to="products/", null=True, blank=True)
+    image       = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     stock       = models.IntegerField(default=0, null=True, blank=True)
     created_at  = models.DateTimeField(default=None)
@@ -89,26 +89,25 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.product} x {self.quantity}"
     class Meta:
-        managed = False
-        db_table = TABLE_ORDER_DETAIL 
+        managed     = False
+        db_table    = TABLE_ORDER_DETAIL 
 
 class UserNew(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    full_name = models.CharField(max_length=150)
-    email = models.CharField(max_length=150)
-    avatar = models.CharField(max_length=500)
+    id          = models.BigAutoField(primary_key=True)
+    full_name   = models.CharField(max_length=150)
+    email       = models.CharField(max_length=150)
+    avatar      = models.CharField(max_length=500)
     
 
     class Meta:
-        managed = False 
-        db_table = TABLE_USER 
+        managed     = False 
+        db_table    = TABLE_USER 
 class Review(models.Model):
-    user     = models.ForeignKey(UserNew, on_delete=models.CASCADE, related_name="reviewer")
-
-    star = models.IntegerField(default=0, null=True,blank=True)
-    comment = models.TextField( null=True,blank=True)
-
-   
+    user        = models.ForeignKey(UserNew, on_delete=models.CASCADE, related_name="reviewer")
+    product     = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True,related_name="reviews")
+    star        = models.IntegerField(default=0, null=True,blank=True)
+    comment     = models.TextField( null=True,blank=True)
+    created_at  = models.DateTimeField(null=True)
     class Meta:
-        managed = False
-        db_table = TABLE_REVIEW
+        managed     = False
+        db_table    = TABLE_REVIEW

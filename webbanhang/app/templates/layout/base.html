@@ -124,7 +124,9 @@
               <!-- Cart -->
               <a href="{% url 'cart' %}" class="position-relative me-3">
                 <i class="fa fa-shopping-bag fa-2x text-primary"></i>
-                <span class="position-absolute bg-danger rounded-circle d-flex align-items-center justify-content-center text-white" style="top: -5px; left: 15px; width: 20px; height: 20px; font-size: 12px;">3</span>
+                {% if total_quantity > 0 %}
+                  <span class="position-absolute bg-danger rounded-circle d-flex align-items-center justify-content-center text-white" style="top: -5px; left: 15px; width: 20px; height: 20px; font-size: 12px;">{{ total_quantity }}</span>
+                {% endif %}
               </a>
 
               <!-- User -->

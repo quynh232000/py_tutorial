@@ -66,7 +66,7 @@
     <div class="container py-5">
       <h1 class="mb-4">
         {% if category %}
-          {{ category.name }} ({{ category.product_counts|default:'0' }})
+          {{ category.name }} 
         {% else %}
           Quin Ecommerce
         {% endif %}
@@ -177,14 +177,17 @@
                       <div class="fruite-img">
                         <img src="{{ pro.image }}" class="img-fluid w-100 rounded-top" alt="{{ pro.name }}" style="height: 200px; object-fit: cover;" />
                       </div>
-                      <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{ pro.category.name }}</div>
+                      <a href="{% url "detail" slug=pro.slug %}" class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{ pro.category.name }}</a>
                       <div class="p-3 border border-secondary border-top-0 rounded-bottom">
-                        <h6 class="fw-semibold text-truncate-2 mb-2" style="font-size: 0.9rem; line-height: 1.3; min-height: 38px;">{{ pro.name }}</h6>
+                        <a href="{% url "detail" slug=pro.slug %}">
+
+                          <h6 class="fw-semibold text-truncate-2 mb-2" style="font-size: 0.9rem; line-height: 1.3; min-height: 38px;">{{ pro.name }}</h6>
+                        </a>
                         <div class="d-flex justify-content-between align-items-center">
                           <p class="text-dark fs-6 fw-bold mb-0">
                             {% load humanize %}{{ pro.price|floatformat:0|intcomma }} ₫
                           </p>
-                          <a href="{% url 'detail' slug=pro.slug %}" class="btn btn-sm border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm</a>
+                          <a href="{% url 'add_to_cart' product_id=pro.id %}" class="btn btn-sm border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm</a>
                         </div>
                       </div>
                     </div>
@@ -194,26 +197,46 @@
                 {% endfor %}
                 <div class="col-12">
                   <div class="pagination d-flex justify-content-center mt-5">
-                    {% if products.has_previous %}
-                      <a href="?page={{ products.previous_page_number }}" class="rounded">&laquo;</a>
-                    {% else %}
-                      <a href="#" class="rounded disabled">&laquo;</a>
-                    {% endif %}
-
-                    {% for num in products.paginator.page_range %}
-                      {% if products.number == num %}
-                        <a href="?page={{ num }}" class="active rounded">{{ num }}</a>
+                      {# Nút Previous #}
+                      {% if products.has_previous %}
+                        <a href="?page={{ products.previous_page_number }}" class="rounded">&laquo;</a>
                       {% else %}
-                        <a href="?page={{ num }}" class="rounded">{{ num }}</a>
+                        <a href="#" class="rounded disabled">&laquo;</a>
                       {% endif %}
-                    {% endfor %}
 
-                    {% if products.has_next %}
-                      <a href="?page={{ products.next_page_number }}" class="rounded">&raquo;</a>
-                    {% else %}
-                      <a href="#" class="rounded disabled">&raquo;</a>
-                    {% endif %}
-                  </div>
+                      {# Nếu trang hiện tại > 3 thì hiện 1 và dấu ... #}
+                      {% if products.number > 3 %}
+                        <a href="?page=1" class="rounded">1</a>
+                        <a href="#" class="rounded disabled">…</a>
+                      {% endif %}
+
+                      {# Hiển thị 2 trang trước, trang hiện tại, và 2 trang sau #}
+                      {% for num in products.paginator.page_range %}
+                        {% if num >= products.number|add:'-2' and num <= products.number|add:'2' %}
+                          {% if products.number == num %}
+                            <a href='#' class="active rounded">{{ num }}</a>
+                          {% else %}
+                            <a href="?page={{ num }}" class="rounded">{{ num }}</a>
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+
+                      {# Nếu còn nhiều trang phía sau thì hiện ... và trang cuối #}
+                      {% if products.number < products.paginator.num_pages|add:'-2' %}
+                        <a href="3" class="rounded disabled">…</a>
+                        <a href="?page={{ products.paginator.num_pages }}" class="rounded">
+                          {{ products.paginator.num_pages }}
+                        </a>
+                      {% endif %}
+
+                      {# Nút Next #}
+                      {% if products.has_next %}
+                        <a href="?page={{ products.next_page_number }}" class="rounded">&raquo;</a>
+                      {% else %}
+                        <a href="#" class="rounded disabled">&raquo;</a>
+                      {% endif %}
+                    </div>
+
                 </div>
               </div>
             </div>
