@@ -31,6 +31,7 @@
 
     <!-- Template Stylesheet -->
     <link href="{% static 'app/css/style.css' %}?v={% now 'U' %}" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
       .navbar-nav .nav-link {
         font-weight: 500;
@@ -130,7 +131,33 @@
               </a>
 
               <!-- User -->
-              <a href="/account" class="text-primary"><i class="fas fa-user fa-2x"></i></a>
+              <ul class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+                  <!-- Dropdown user -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fas fa-user-circle fa-2x me-2"></i>
+                      <span>{{ user.username }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                      <li>
+                        <a class="dropdown-item" href="/account">Tài khoản của tôi</a>
+                      </li>
+                      <li>
+                        <hr class="dropdown-divider" />
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
+                      </li>
+                    </ul>
+                  </li>
+                {% else %}
+                  <!-- Nếu chưa login -->
+                  <li class="nav-item">
+                    <a href="{% url 'login' %}" class="btn btn-primary text-white">Đăng nhập</a>
+                  </li>
+                {% endif %}
+              </ul>
             </div>
           </div>
         </nav>

@@ -28,7 +28,9 @@ def home(request):
                     'reviews' :reviews,
                 }
     return render(request,'app/home.html',context)
-def shop(request,slug = None,search = None):
+def shop(request,slug = None):
+
+    search          = request.GET.get("search")
     category        = None
     sort            = request.GET.get("sort", "")
     price_max       = request.GET.get("price_max")
@@ -45,6 +47,10 @@ def shop(request,slug = None,search = None):
     if slug:
         category        = get_object_or_404(Category, slug=slug)
         product_list    = Product.objects.filter(category_id=category.id).order_by("?")
+    elif search:
+        # lọc theo search (tìm tên sản phẩm chứa từ khóa)
+        category = None
+        product_list = Product.objects.filter(name__icontains=search).order_by("?")
     else:
         category        = None
         product_list    = Product.objects.order_by("?")
@@ -197,7 +203,7 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, "app/register.html", {"form": form})
-def login(request):
+def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -210,7 +216,7 @@ def login(request):
     return render(request, "app/login.html")
 
 
-def logout(request):
+def logout_view(request):
     logout(request)
     return redirect("login")
 
