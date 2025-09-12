@@ -18,7 +18,7 @@
             {# Hiển thị message nếu có #}
             {% if messages %}
               {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
                   {{ message }}
                   <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
@@ -30,12 +30,12 @@
 
               <div class="mb-3">
                 <label class="form-label fw-bold">Tên đăng nhập</label>
-                <input type="text" name="username" class="form-control" placeholder="Nhập tên đăng nhập" required />
+                <input type="text" name="username" value="{{ request.POST.username }}" class="form-control" placeholder="Nhập tên đăng nhập" required />
               </div>
 
               <div class="mb-3">
                 <label class="form-label fw-bold">Mật khẩu</label>
-                <input type="password" name="password" class="form-control" placeholder="Nhập mật khẩu" required />
+                <input type="password" name="password" {{ request.POST.password }} class="form-control" placeholder="Nhập mật khẩu" required />
               </div>
 
               <button type="submit" class="btn btn-primary w-100 py-2 rounded-pill text-white">Đăng nhập</button>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from . import views
 urlpatterns = [
     path('', views.home,name='home'),
@@ -17,4 +17,6 @@ urlpatterns = [
     path('san-pham/<slug:slug>', views.detail,name='detail'),
     path('add_to_cart/<int:product_id>', views.add_to_cart,name='add_to_cart'),
     path('update_cart/<str:type>/<int:product_id>/<int:quantity>/', views.update_cart,name='update_cart'),
+
+
 ]
